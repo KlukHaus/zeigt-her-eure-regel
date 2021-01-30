@@ -1,0 +1,17 @@
+telegramAction = actions.get("telegram","telegram:telegramBot:a1b2c3d4e5");
+var ScriptExecution = Java.type("org.openhab.core.model.script.actions.ScriptExecution");
+var ZonedDateTime = Java.type("java.time.ZonedDateTime");
+
+if (this.timer != undefined) {
+  this.timer.cancel();
+  this.timer = undefined;
+}
+
+function turnOff() {
+  telegramAction.sendTelegram("Das Badezimmerfenster ist seit 10 Minuten auf.");
+  this.timer = undefined;
+}
+
+if (itemRegistry.getItem('Badezimmerfenster_OpenStatus').getState() == 'OPEN') {
+  this.timer = ScriptExecution.createTimer(ZonedDateTime.now().plusMinutes(10), turnOff);
+}
