@@ -1,0 +1,39 @@
+var hellwert
+switch(event.event)  
+    {
+        case "FLIP90":
+            if(items.Orgel_Helligkeit >= 1)
+            {
+                events.sendCommand('Orgel_Helligkeit', OFF);  
+            }
+            else
+            {
+                events.sendCommand('Orgel_Helligkeit', ON);
+            }
+        break;
+        case "FLIP180":
+            events.sendCommand('Orgel_Helligkeit', OFF);
+        break
+        case "TAP_TWICE":
+            events.sendCommand('Orgel_Helligkeit', 100);
+        break
+        case "SHAKE_AIR":
+            events.sendCommand('Orgel_Helligkeit', OFF);
+        break
+        case "ROTATE_RIGHT":
+            hellwert = (parseInt(items.Orgel_Helligkeit)) + 20
+            if(hellwert >= 100)
+            {
+                hellwert = 100
+            }
+            events.sendCommand('Orgel_Helligkeit', hellwert);
+        break
+        case "ROTATE_LEFT":
+            hellwert = (parseInt(items.Orgel_Helligkeit)) - 20
+            if(hellwert <= 1)
+            {
+                hellwert = 0
+            }
+            events.sendCommand('Orgel_Helligkeit', hellwert);
+        break
+    }
