@@ -1,0 +1,8 @@
+var whatitis = "";
+ir.getItem("Batteries").members
+                   .stream()
+                   .filter(function(batt) {if(batt.state != "NULL"){return batt.state.intValue() <= 10}; } )
+                   .forEach(function(batt) { whatitis = whatitis + batt.label +": "+ batt.state +"%" + "\r\n"; } );
+if(whatitis != ""){
+    events.sendCommand('TelegramText', "Batteriewarnung für: \r\n" + whatitis);
+}
