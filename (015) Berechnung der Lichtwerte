@@ -1,0 +1,49 @@
+// Erste Regel "Lichtautomatik"
+
+var current = new Date();
+var DayTimeVal = (current.getMinutes())+(current.getHours()*60);
+var LiTempval;
+var LiBrival;
+
+    if((DayTimeVal >= 360) && (DayTimeVal <= 1320))
+    {
+        if(DayTimeVal <= 480)
+        {
+            LiTempval = Math.round(((1+DayTimeVal-360)*0.16)+20);
+            LiBrival = Math.round(((1+DayTimeVal-360)*0.5)+40);
+        }
+        else if(DayTimeVal >= 1080)
+        {
+            LiTempval = Math.round(((1+DayTimeVal-1080)*0.16)+60);
+            LiBrival = Math.round(((1+DayTimeVal-1080)*-0.4125)+100);
+        }
+        else
+        {
+            LiTempval = Math.round(((1+DayTimeVal-480)*0.03)+40);
+            LiBrival =  100;
+        }
+        if(LiTempval >= 100){
+            LiTempval = 100;
+        }
+        if(LiBrival >= 100){
+            LiBrival = 100;
+        }
+    }
+    else 
+    {
+        LiTempval = 100;
+        LiBrival = 1;
+    }
+    events.sendCommand("LiTemp", LiTempval)
+    events.sendCommand("LiBri", LiBrival)
+    
+// Zweite Regel "Licht Update"
+
+    if(parseInt(items.EsstischZone_Helligkeit) == parseInt(items.EzPreBri) && parseInt(items.EsstischZone_Farbtemperatur) == parseInt(items.EzPreTemp))
+    {
+        events.sendCommand('EzPreTemp', itemRegistry.getItem('LiTemp').getState());
+        events.sendCommand('EsstischZone_Farbtemperatur', itemRegistry.getItem('LiTemp').getState());
+        events.sendCommand('EzPreBri', itemRegistry.getItem('LiBri').getState());
+        events.sendCommand('EsstischZone_Helligkeit', itemRegistry.getItem('LiBri').getState());
+    }
+    
