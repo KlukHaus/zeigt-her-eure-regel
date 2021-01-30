@@ -1,0 +1,15 @@
+if (itemRegistry.getItem('Ruhezeit').getState() == 'ON') {
+  if (itemRegistry.getItem('WzTvRechts_Farbe').getState() == '36,100,54' || itemRegistry.getItem('WzTvRechts_Farbe').getState() == '37,100,54') {
+    var i;
+    for (i = 0; i < 2; i++) {
+      events.sendCommand('WzTvLinks_Farbe', '5,100,90');
+      events.sendCommand('WzTvRechts_Farbe', '5,100,90');
+      java.lang.Thread.sleep(500);
+      events.sendCommand('WzTvLinks_Farbe', '5,100,10');
+      events.sendCommand('WzTvRechts_Farbe', '5,100,10');
+      java.lang.Thread.sleep(500);
+    }
+  events.sendCommand('WzTvLinks_Farbe', '23,100,54');
+  events.sendCommand('WzTvRechts_Farbe', '36,100,54');
+  }
+}
