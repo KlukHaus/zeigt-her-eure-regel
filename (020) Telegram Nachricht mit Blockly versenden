@@ -1,0 +1,5 @@
+if(items.TelegramText != "NULL"){
+  telegramAction = actions.get("telegram","telegram:telegramBot:a1b2c3d4e5");
+  telegramAction.sendTelegram(items.TelegramText);
+}
+events.sendCommand('TelegramText', 'NULL');
