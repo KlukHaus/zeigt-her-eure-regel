@@ -1,0 +1,35 @@
+// Erste Regel "Garagentor"
+
+telegramAction = actions.get("telegram","telegram:telegramBot:a1b2c3d4e5");
+var ScriptExecution = Java.type("org.openhab.core.model.script.actions.ScriptExecution");
+var ZonedDateTime = Java.type("java.time.ZonedDateTime");
+
+if (this.timer != undefined) {
+  this.timer.cancel();
+  this.timer = undefined;
+}
+
+function turnOff() {
+  telegramAction.sendTelegramQuery("Das Garagentor ist seit 5 Minuten offen. Möchtest du es jetzt zu machen?","GgRequest", "Ja", "Nein");
+  this.timer = undefined;
+}
+
+if (itemRegistry.getItem('Garagentor_OpenStatus').getState() == 'OPEN') {
+  this.timer = ScriptExecution.createTimer(ZonedDateTime.now().plusMinutes(5), turnOff);
+}
+
+
+// Zweite Regel "Garagentor Telegram"
+
+telegramAction = actions.get("telegram","telegram:telegramBot:a1b2c3d4e5");
+
+ if (itemRegistry.getItem('TelegramBot_LastMessageText').getState() == "Ja")
+    {
+        events.sendCommand('Garagentor_Switch1', 'ON');
+        telegramAction.sendTelegramAnswer("GgRequest", "Ok, ich mache das Garagentor zu.") 
+    }
+    else
+    {
+        telegramAction.sendTelegramAnswer("GgRequest", "Okay, ich lasse es offen.")
+    }
+events.sendCommand('TelegramBot_ReplyId', 'NULL')
