@@ -1,0 +1,26 @@
+var ScriptExecution = Java.type("org.openhab.core.model.script.actions.ScriptExecution");
+var ZonedDateTime = Java.type("java.time.ZonedDateTime");
+var varOne;
+
+if (this.timer != undefined) 
+{
+  this.timer.cancel();
+  this.timer = undefined;
+}
+
+function Waschi() 
+{
+  events.sendCommand('TelegramText', 'Die Waschmaschine ist fertig.');
+  events.sendCommand('UntenCastSay', 'Die Waschmaschine ist fertig.');
+  varOne = '0';
+  this.timer = undefined;
+}
+
+if (itemRegistry.getItem('Waschmaschine_Sensorpower').getState() < '2.0' && varOne == '1') 
+{
+  this.timer = ScriptExecution.createTimer(ZonedDateTime.now().plusMinutes(2), Waschi);
+}
+else if (itemRegistry.getItem('Waschmaschine_Sensorpower').getState() > '100.0')
+{
+  varOne = '1';
+}
